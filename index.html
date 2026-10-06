@@ -7,6 +7,7 @@
 <title>School Diary System</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -22,8 +23,15 @@ body{
 
 .header{
   background:white;
-  padding:22px 18px;
+  padding:20px 18px;
   box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+
+.header-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
 }
 
 .header h1{
@@ -36,22 +44,33 @@ body{
   margin-top:6px;
 }
 
+.admin-link{
+  text-decoration:none;
+  background:#eef5ff;
+  color:#1769e0;
+  padding:10px 12px;
+  border-radius:9px;
+  font-size:13px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
 .container{
-  max-width:650px;
-  margin:30px auto;
+  max-width:680px;
+  margin:25px auto;
   padding:0 16px;
 }
 
 .card{
   background:white;
   border-radius:18px;
-  padding:25px;
+  padding:24px;
   box-shadow:0 8px 30px rgba(30,80,150,.10);
 }
 
 .title{
   font-size:21px;
-  margin-bottom:22px;
+  margin-bottom:20px;
 }
 
 label{
@@ -96,6 +115,7 @@ textarea{
   border-radius:12px;
   cursor:pointer;
   transition:.2s;
+  background:white;
 }
 
 .class-card:hover{
@@ -115,8 +135,16 @@ textarea{
 
 .subject{
   color:#667085;
-  margin-top:5px;
+  margin-top:6px;
   font-size:14px;
+}
+
+.no-data{
+  padding:15px;
+  border-radius:10px;
+  background:#f8fafc;
+  color:#667085;
+  text-align:center;
 }
 
 button{
@@ -173,7 +201,31 @@ button:hover{
   display:none;
 }
 
+.warning{
+  display:none;
+  background:#fff7ed;
+  color:#9a3412;
+  padding:13px;
+  border-radius:10px;
+  margin-top:15px;
+  font-size:14px;
+}
+
 @media(max-width:600px){
+
+  .header-top{
+    align-items:flex-start;
+  }
+
+  .header h1{
+    font-size:21px;
+  }
+
+  .admin-link{
+    font-size:12px;
+    padding:8px 9px;
+  }
+
   .container{
     margin:18px auto;
   }
@@ -181,55 +233,111 @@ button:hover{
   .card{
     padding:20px;
   }
+
 }
+
 </style>
 </head>
+
 
 <body>
 
 <header class="header">
-  <h1>📘 School Diary</h1>
-  <p>Daily Homework & Diary Submission</p>
+
+  <div class="header-top">
+
+    <div>
+      <h1>📘 School Diary</h1>
+      <p>Daily Homework & Diary Submission</p>
+    </div>
+
+    <a class="admin-link" href="admin.html">
+      ⚙️ Admin
+    </a>
+
+  </div>
+
 </header>
+
 
 <main class="container">
 
+
+<!-- FORM -->
+
 <div class="card" id="formCard">
 
-  <h2 class="title">👨‍🏫 Teacher Diary</h2>
+  <h2 class="title">
+    👨‍🏫 Teacher Diary
+  </h2>
 
-  <label>Select Teacher *</label>
+
+  <label>
+    Select Teacher *
+  </label>
 
   <select id="teacher" onchange="showClasses()">
-    <option value="">Select your name</option>
-    <option value="Hassan">Hassan Ahmed</option>
-    <option value="Ayesha">Ayesha Khan</option>
-    <option value="Usman">Usman Raza</option>
+
+    <option value="">
+      Select your name
+    </option>
+
   </select>
+
+
+  <div id="warning" class="warning"></div>
 
 
   <div id="classArea" class="hidden">
 
-    <label>Select Class & Section *</label>
+    <label>
+      Select Class & Section *
+    </label>
 
-    <div class="classes" id="classes"></div>
+    <div
+      class="classes"
+      id="classes">
+    </div>
 
   </div>
 
 
   <div id="diaryArea" class="hidden">
 
-    <label>📚 Subject</label>
 
-    <input id="subject" readonly>
+    <label>
+      📚 Subject
+    </label>
+
+    <input
+      id="subject"
+      readonly
+    >
 
 
-    <label>📅 Date *</label>
+    <label>
+      🌅 Shift
+    </label>
 
-    <input type="date" id="date">
+    <input
+      id="shift"
+      readonly
+    >
 
 
-    <label>📝 Today's Homework / Diary *</label>
+    <label>
+      📅 Date *
+    </label>
+
+    <input
+      type="date"
+      id="date"
+    >
+
+
+    <label>
+      📝 Today's Homework / Diary *
+    </label>
 
     <textarea
       id="homework"
@@ -237,7 +345,9 @@ button:hover{
     ></textarea>
 
 
-    <label>📌 Additional Remarks</label>
+    <label>
+      📌 Additional Remarks
+    </label>
 
     <textarea
       id="remarks"
@@ -255,22 +365,54 @@ button:hover{
 </div>
 
 
-<div class="card success" id="successCard">
+<!-- SUCCESS -->
 
-  <div class="success-icon">✓</div>
+<div
+  class="card success"
+  id="successCard"
+>
 
-  <h2>Diary Submitted Successfully!</h2>
+  <div class="success-icon">
+    ✓
+  </div>
+
+  <h2>
+    Diary Submitted Successfully!
+  </h2>
 
   <p style="margin-top:8px;color:#667085;">
-    Your diary has been saved in the system.
+    Your diary has been recorded.
   </p>
 
+
   <div class="details">
-    👨‍🏫 <b>Teacher:</b> <span id="sTeacher"></span><br>
-    🏫 <b>Class:</b> <span id="sClass"></span><br>
-    📚 <b>Subject:</b> <span id="sSubject"></span><br>
-    📅 <b>Date:</b> <span id="sDate"></span>
+
+    👨‍🏫
+    <b>Teacher:</b>
+    <span id="sTeacher"></span>
+    <br>
+
+    🏫
+    <b>Class:</b>
+    <span id="sClass"></span>
+    <br>
+
+    📚
+    <b>Subject:</b>
+    <span id="sSubject"></span>
+    <br>
+
+    🌅
+    <b>Shift:</b>
+    <span id="sShift"></span>
+    <br>
+
+    📅
+    <b>Date:</b>
+    <span id="sDate"></span>
+
   </div>
+
 
   <button onclick="location.reload()">
     + Submit Another Diary
@@ -278,61 +420,126 @@ button:hover{
 
 </div>
 
+
 </main>
 
 
 <script>
 
-const allocations = {
 
-  Hassan:[
-    {
-      class:"6-A",
-      subject:"English"
-    },
-    {
-      class:"6-B",
-      subject:"English"
-    },
-    {
-      class:"7-D",
-      subject:"Mathematics"
-    }
-  ],
+/* =========================
+   DATA
+========================= */
 
-  Ayesha:[
-    {
-      class:"5-A",
-      subject:"Science"
-    },
-    {
-      class:"5-B",
-      subject:"Science"
-    }
-  ],
+let teachers =
+  JSON.parse(
+    localStorage.getItem("schoolTeachers") || "[]"
+  );
 
-  Usman:[
-    {
-      class:"8-A",
-      subject:"Urdu"
-    }
-  ]
 
-};
+let submissions =
+  JSON.parse(
+    localStorage.getItem("schoolDiarySubmissions") || "[]"
+  );
 
 
 let selectedClass = "";
 let selectedSubject = "";
+let selectedShift = "";
 
 
-document.getElementById("date").value =
-  new Date().toISOString().split("T")[0];
+/* =========================
+   ELEMENTS
+========================= */
 
+const teacherSelect =
+  document.getElementById("teacher");
+
+const dateInput =
+  document.getElementById("date");
+
+
+/* =========================
+   TODAY'S DATE
+========================= */
+
+dateInput.value =
+  new Date()
+  .toISOString()
+  .split("T")[0];
+
+
+/* =========================
+   LOAD TEACHERS
+========================= */
+
+function loadTeachers(){
+
+  teacherSelect.innerHTML =
+    '<option value="">Select your name</option>';
+
+  teachers.forEach(
+    (teacher,index)=>{
+
+      const option =
+        document.createElement("option");
+
+      option.value = index;
+
+      option.textContent =
+        teacher.name;
+
+      teacherSelect.appendChild(option);
+
+    }
+  );
+
+
+  if(teachers.length === 0){
+
+    showWarning(
+      "No teachers have been added yet. Please contact the administrator."
+    );
+
+  }
+
+}
+
+
+/* =========================
+   WARNING
+========================= */
+
+function showWarning(message){
+
+  const warning =
+    document.getElementById("warning");
+
+  warning.textContent = message;
+
+  warning.style.display = "block";
+
+}
+
+
+function hideWarning(){
+
+  document.getElementById("warning")
+    .style.display = "none";
+
+}
+
+
+/* =========================
+   SHOW CLASSES
+========================= */
 
 function showClasses(){
 
-  const teacher =
-    document.getElementById("teacher").value;
+  hideWarning();
+
+  const index =
+    teacherSelect.value;
 
   const area =
     document.getElementById("classArea");
@@ -340,102 +547,320 @@ function showClasses(){
   const classes =
     document.getElementById("classes");
 
-  document.getElementById("diaryArea")
-    .classList.add("hidden");
+  const diaryArea =
+    document.getElementById("diaryArea");
 
-  classes.innerHTML="";
 
-  if(!teacher){
+  diaryArea.classList.add("hidden");
+
+  classes.innerHTML = "";
+
+
+  selectedClass = "";
+  selectedSubject = "";
+  selectedShift = "";
+
+
+  document.getElementById("subject").value = "";
+  document.getElementById("shift").value = "";
+
+
+  if(index === ""){
+
     area.classList.add("hidden");
+
     return;
+
   }
+
+
+  const teacher =
+    teachers[index];
+
 
   area.classList.remove("hidden");
 
-  allocations[teacher].forEach(item=>{
 
-    const div =
-      document.createElement("div");
+  if(
+    !teacher.allocations ||
+    teacher.allocations.length === 0
+  ){
 
-    div.className="class-card";
-
-    div.innerHTML=`
-      <div class="class-name">
-        🏫 ${item.class}
-      </div>
-
-      <div class="subject">
-        📚 ${item.subject}
-      </div>
-    `;
-
-    div.onclick=()=>{
-
-      document
-        .querySelectorAll(".class-card")
-        .forEach(x=>x.classList.remove("active"));
-
-      div.classList.add("active");
-
-      selectedClass=item.class;
-      selectedSubject=item.subject;
-
-      document.getElementById("subject")
-        .value=item.subject;
-
-      document.getElementById("diaryArea")
-        .classList.remove("hidden");
-
-    };
-
-    classes.appendChild(div);
-
-  });
-
-}
-
-
-function submitDiary(){
-
-  const teacher =
-    document.getElementById("teacher").value;
-
-  const date =
-    document.getElementById("date").value;
-
-  const homework =
-    document.getElementById("homework").value.trim();
-
-  if(!teacher || !selectedClass || !date || !homework){
-
-    alert("Please complete all required fields.");
+    classes.innerHTML =
+      '<div class="no-data">No class allocation assigned to this teacher.</div>';
 
     return;
+
   }
 
 
-  document.getElementById("sTeacher")
-    .textContent=teacher;
+  teacher.allocations.forEach(
+    (item)=>{
 
-  document.getElementById("sClass")
-    .textContent=selectedClass;
+      const div =
+        document.createElement("div");
 
-  document.getElementById("sSubject")
-    .textContent=selectedSubject;
-
-  document.getElementById("sDate")
-    .textContent=date;
+      div.className =
+        "class-card";
 
 
-  document.getElementById("formCard")
-    .style.display="none";
+      div.innerHTML = `
 
-  document.getElementById("successCard")
-    .style.display="block";
+        <div class="class-name">
+          🏫 ${item.class}
+        </div>
+
+        <div class="subject">
+          📚 ${item.subject}
+          &nbsp; • &nbsp;
+          🌅 ${item.shift}
+        </div>
+
+      `;
+
+
+      div.onclick = ()=>{
+
+        document
+          .querySelectorAll(".class-card")
+          .forEach(
+            x =>
+              x.classList.remove("active")
+          );
+
+
+        div.classList.add("active");
+
+
+        selectedClass =
+          item.class;
+
+        selectedSubject =
+          item.subject;
+
+        selectedShift =
+          item.shift;
+
+
+        document
+          .getElementById("subject")
+          .value =
+            item.subject;
+
+
+        document
+          .getElementById("shift")
+          .value =
+            item.shift;
+
+
+        diaryArea
+          .classList
+          .remove("hidden");
+
+      };
+
+
+      classes.appendChild(div);
+
+    }
+  );
 
 }
+
+
+/* =========================
+   SUBMIT DIARY
+========================= */
+
+function submitDiary(){
+
+  const teacherIndex =
+    teacherSelect.value;
+
+
+  const date =
+    dateInput.value;
+
+
+  const homework =
+    document
+      .getElementById("homework")
+      .value
+      .trim();
+
+
+  const remarks =
+    document
+      .getElementById("remarks")
+      .value
+      .trim();
+
+
+  if(
+    teacherIndex === "" ||
+    !selectedClass ||
+    !date ||
+    !homework
+  ){
+
+    alert(
+      "Please complete all required fields."
+    );
+
+    return;
+
+  }
+
+
+  const teacher =
+    teachers[teacherIndex];
+
+
+  /* =========================
+     DUPLICATE CHECK
+  ========================= */
+
+  const duplicate =
+    submissions.find(
+      item =>
+
+        item.teacher === teacher.name &&
+        item.class === selectedClass &&
+        item.date === date
+
+    );
+
+
+  if(duplicate){
+
+    const update =
+      confirm(
+        "This teacher has already submitted a diary for this class and date.\n\nDo you want to update it?"
+      );
+
+
+    if(!update){
+
+      return;
+
+    }
+
+
+    duplicate.subject =
+      selectedSubject;
+
+    duplicate.shift =
+      selectedShift;
+
+    duplicate.homework =
+      homework;
+
+    duplicate.remarks =
+      remarks;
+
+    duplicate.updatedAt =
+      new Date().toISOString();
+
+
+  }else{
+
+
+    submissions.push({
+
+      id:
+        Date.now(),
+
+      teacher:
+        teacher.name,
+
+      class:
+        selectedClass,
+
+      subject:
+        selectedSubject,
+
+      shift:
+        selectedShift,
+
+      date:
+        date,
+
+      homework:
+        homework,
+
+      remarks:
+        remarks,
+
+      createdAt:
+        new Date().toISOString()
+
+    });
+
+  }
+
+
+  /* SAVE */
+
+  localStorage.setItem(
+    "schoolDiarySubmissions",
+    JSON.stringify(submissions)
+  );
+
+
+  /* SUCCESS SCREEN */
+
+  document
+    .getElementById("sTeacher")
+    .textContent =
+      teacher.name;
+
+
+  document
+    .getElementById("sClass")
+    .textContent =
+      selectedClass;
+
+
+  document
+    .getElementById("sSubject")
+    .textContent =
+      selectedSubject;
+
+
+  document
+    .getElementById("sShift")
+    .textContent =
+      selectedShift;
+
+
+  document
+    .getElementById("sDate")
+    .textContent =
+      date;
+
+
+  document
+    .getElementById("formCard")
+    .style.display =
+      "none";
+
+
+  document
+    .getElementById("successCard")
+    .style.display =
+      "block";
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadTeachers();
 
 </script>
 
 </body>
-                               </html>
+</html>
